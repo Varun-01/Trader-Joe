@@ -1,0 +1,15 @@
+{% extends "header.html" %}
+{% from 'macros.html' import login %}
+{% block body %}
+<form action="" method="post">
+    <div class="jumbotron">
+        <h4 class="text-center">Login</h4>
+    </div>
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+            {{ login() }}
+        </div>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends "header.html" %}
+{% set sender=CONTENT_DICT["sender"] %}
+
+{% block body %}
+
+<style>
+    .box-shadow {
+        box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .05);
+    }
+
+    .inputarea {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: 95px;
+        width: 100%;
+        background: #f6f6f6;
+        color: #a1a1a1;
+        padding: 10px;
+    }
+
+    .message-body {
+        display: block;
+        padding-top: 5px;
+        font-size: 14px;
+        color: #222;
+    }
+
+    .msg-box .picture {
+        float: left;
+        width: 50px;
+        display: block;
+        padding-right: 15px;
+        margin-right: 10px;
+    }
+
+    .message {
+        color: #555;
+        font-weight: bold;
+    }
+
+    .msg-box:hover > .ellipsis-icon {
+        visibility: visible;
+    }
+
+    .picture img {
+        width: 45px;
+        height: 45px;
+        border-radius: 5px;
+    }
+
+    .msg {
+        background: #ECECEC;
+        display: inline-block;
+        padding: 12px;
+        width: auto;
+        max-width: 80%;
+        border-radius: 2px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+        position: relative;
+        overflow-x: auto;
+    }
+
+    .msg img {
+        width: 100%;
+        max-width: 1000px;
+        height: auto;
+    }
+
+    .msg:before {
+        content: "";
+        position: absolute;
+        display: block;
+        left: 0;
+        border-right: 6px solid #ECECEC;
+        border-top: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        top: 10px;
+        margin-left: -6px;
+    }
+</style>
+
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class=" ml-4 my-0 mr-md-auto font-weight-normal">Message Page with {{ seller.name }} </h5>
+    <br>
+    <h6> {{ listing.description }} Price: {{ listing.sell_price }} $ </h6>
+
+</div>
+
+
+<div id="message_container" style="margin-bottom: 95px" class="container bg-light mt-2 ">
+
+    {% for message in message %}
+    <div class="msg-box mt-3">
+        <span class="message">{{ message.message }} &nbsp;&nbsp;&nbsp;&nbsp;&emsp; </span>
+        <span class="message-body"></span>
+        <small class="timestamp">from {{ message.sender.name }} at {{ message.msg_sent }}</small>
+    </div>
+    {% endfor %}
+
+
+</div>
+
+<div class="row">
+    <form class="col-12" action="" method="post">
+        <div class="row flex-nowrap justify-content-between align-items-center mb-3">
+            <div class="col-12">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Input</span>
+                    </div>
+
+                    <textarea id="text_area" name="message" class="form-control" aria-label="Input"
+                              placeholder="Type message!"></textarea>
+                    <button class=" ml-2 btn btn-lg btn-primary" type="submit" name="btn" value="send">send</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+

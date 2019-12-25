@@ -1,0 +1,50 @@
+{% extends "header.html" %}
+{% block body %}
+
+{% set getImage = CONTENT_DICT["getimage"] %}
+{% set is_book = CONTENT_DICT["isbook"] %}
+
+<form action="" method="post">
+<div class="row" style="margin-top:30px">
+    <div class="col-sm-5 text-center">
+        {% set image = getImage(listing.id) %}
+        {% if image %}
+        <img class="border-dark mb-1" width="100%" height="85%" src="data:image/png;base64,{{ image.as_b64() }}">
+        {% else %}
+        <img class="img-fluid border-dark mb-1" src="/static/resources/noimage.jpg">
+        {% endif %}
+    </div>
+
+    <div class="col-sm-7">
+        <div class="card border-dark mb-1">
+            <h2 class="card-header"><a href="{{ '/listing/%s'%listing.id }}" target="_blank">{{ listing.title }}</a></h2>
+            <div class="card-body">
+                <div class="col-auto">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">Listing ID:</div>
+                        </div>
+                    <input class="form-control" type="text" name="lid" value="{{ listing.id }}" readonly/>
+                    </div>
+                </div>
+                <br>
+                <h3>${{ listing.sell_price }}</h3>
+                <div>Category: {{ listing.category.name }}</div>
+                {% set book = is_book(listing.id) %}
+                {% if book %}
+                <div>Dept: {{ book.dept }}</div>
+                <div>Course: {{ book.course }}</div>
+                {% endif %}
+                <div>Posted by: {{ listing.seller.name }}</div>
+                <div>Description: {{ listing.description }}</div>
+                <br>
+                <div class="text-left">
+                    <button class="btn btn-success btn-lg" type="submit" name="btn" value="Allow">Allow Post</button>
+                    <button class="btn btn-danger btn-lg" type="submit" name="btn" value="Deny">Deny Post</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+{% endblock %}

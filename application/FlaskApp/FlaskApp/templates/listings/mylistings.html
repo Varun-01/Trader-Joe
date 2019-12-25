@@ -1,0 +1,30 @@
+{% extends "header.html" %}
+{% from 'macros.html' import preview %}
+{% set getThumb = CONTENT_DICT["getthumb"] %}
+
+{% block body %}
+<!--    # This div uses jinja logic to get the postings from __init__.py and formats them.-->
+<div class="row py-4">
+    <div class="col-sm-12">
+        <h2>Your Current Listings</h2>
+        <div class="col-sm-12">
+
+            <div class="row py-4">
+                {% for listing in mylistings %}
+                    {{ preview(listing, getThumb) }}
+                {% endfor %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <a href="{{ url_for('results', search='', cat='All')}}" class="btn btn-block btn-outline-info">Browse More</a>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

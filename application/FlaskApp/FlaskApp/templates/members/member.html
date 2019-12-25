@@ -1,0 +1,30 @@
+{% set title = "Our Team - %s"%CONTENT_DICT[team_member][0] %}
+{% extends "header.html" %}
+
+{% block body %}
+{% set member = CONTENT_DICT[team_member] %}
+<div class="row" style="margin-top:30px">
+    <div class="col-sm-3"></div>
+    <h2 class="col-sm-6 text-center">{{member[0]}}</h2>
+    <div class="col-sm-3"></div>
+</div>
+<br>
+<div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4 text-center">
+        <img class="rounded" src="{{member[1]}}" height="300">
+    </div>
+    <div class="col-sm-4"></div>
+</div>
+<br>
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        {{member[2]}}
+    </div>
+    <div class="col-sm-2"></div>
+</div>
+
+<hr class="d-sm-none">
+
+{% endblock %}

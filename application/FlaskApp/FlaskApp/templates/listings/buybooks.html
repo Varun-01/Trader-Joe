@@ -1,0 +1,28 @@
+{% extends "header.html" %}
+{% block body %}
+
+    <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8 align-items-sm-center">
+            <div class="text-dark text-center mb-5" style="margin-top:60px"><h3>Search for SFSU Textbooks</h3></div>
+            <form action="" class="justify-content-sm-center form-inline row" method="post" name="search">
+
+            <!--  Dropdown for Course Name (ie. Computer Science)   -->
+            <select class="custom-select my-1" id="inlineFormCustomSelectPref" name="course_name">
+
+                {% for course in CONTENT_DICT["Courses"] %}
+                    <option value="{{ course }}">{{ course }}</option>
+                {% endfor %}
+            </select>
+
+
+            <input class="form-control mr-1 col-2" type="text" placeholder="Number"
+                name="course_number" value="">
+            <button class="btn btn-outline-warning" type="submit" name="btn" value="booksearch">
+                <span class="oi oi-magnifying-glass"></span></button>
+            </form>
+    </div>
+    <div class="col-md-2"></div>
+    </div>
+
+{% endblock %}

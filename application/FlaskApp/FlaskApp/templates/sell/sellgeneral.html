@@ -1,0 +1,80 @@
+{% extends "header.html" %}
+{% block body %}
+<div class="container-fluid">
+    <div class="jumbotron">
+        <h3 class="text-center">Sell {{ heading }}</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-1"></div>
+    <form class="col-sm-10" action="" method="post" enctype=multipart/form-data>
+        <div class="form-group">
+            <label class="col-sm-12 col-form-label">Title</label>
+            <div class="col-sm-12">
+                <input type="text" class="form-control" name="title" placeholder="Enter Title Here!!" maxlength="40"
+                       required pattern="[^`()/><\][\\\x22,;|]+" oninvalid="alert('Please enter a valid title for the listing \n' +
+                 'Symbols not allowed: ` ( ) < > / \\ , \x22 ; |')">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-12 col-form-label">Description</label>
+            <div class="col-sm-12">
+                <input type="text" class="form-control" name="description" size="50"
+                       placeholder="Say something about the product!!!">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-12 col-form-label">Price</label>
+            <div class="col-sm-12">
+                <input type="number" class="form-control" name="sell_price" size="50" placeholder="$0" min="0" max="9999">
+                <small class="form-text text-muted">Default will be $0</small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-12 col-form-label"> Product Image</label>
+            <div class="col-sm-12">
+                <div class="custom-file">
+                    <input type="file" accept=".png,.jpg,.jpeg" class="form-control-file"
+                           name="image" id="imageFile" onchange="validateFileType()">
+                    <label id="fileSubmit" class="custom-file-label" for="imageFile">Choose file</label>
+                    <small class="form-text text-muted" style="margin-top: 6px">File types allowed: png, jpg, jpeg</small>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-10">
+                <div type="checkbox">
+                    <label class="text-muted"><input type="checkbox" name="Agree" required>&nbsp;It might take upto 24 hours to
+                        approve the post.</label>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="form-group row">
+            <div class="col-sm-12 text-center">
+                <a type="cancel" class="btn btn-light btn-lg" href="/">Cancel</a>
+                <button type="submit" class="btn btn-primary btn-lg" name="btn" value="sell">Submit</button>
+            </div>
+        </div>
+    </form>
+    <div class="col-sm-1"></div>
+</div>
+
+<!--Script below will validate file type and update label with file name once submitted-->
+<script type="text/javascript">
+    function validateFileType(){
+        var imageFile = document.getElementById("imageFile").value;
+        var idxDot = imageFile.lastIndexOf(".") + 1;
+        var extFile = imageFile.substr(idxDot, imageFile.length).toLowerCase();
+        if (extFile==="jpg" || extFile==="jpeg" || extFile==="png"){
+            //replace the "Choose a file" label
+            var field = document.getElementById("imageFile");
+            document.getElementById("fileSubmit").innerHTML = field.files[0].name;
+        }else{
+            alert("Only jpg/jpeg and png files are allowed!");
+        }
+    }
+</script>
+{% endblock %}
+

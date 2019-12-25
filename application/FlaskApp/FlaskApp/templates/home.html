@@ -1,0 +1,68 @@
+{% extends "header.html" %}
+{% from 'macros.html' import preview %}
+{% set getThumb = CONTENT_DICT["getthumb"] %}
+
+{% block body %}
+<div class="row" style="margin-top: 20px">
+<!--    # This div welcomes the logged in user back-->
+{% if authenticated() %}
+    <h2 class="col-md-12 text-center" style="height: 100px; color:#231161">Welcome Back, {{ name }}</h2>
+</div>
+{% else %}
+<!--    # This div is for the description of the website-->
+    <h2 class="col-md-12 text-center" style="color:#231161">Welcome to Gator Joe's</h2>
+    <h4 class="col-md-12 text-md-center"><br><br>The only online marketplace</h4>
+    <h4 class="col-md-12 text-md-center ml-2">by SFSU students,</h4>
+    <h4 class="col-md-12 text-md-center ml-4">for SFSU students.<br><br></h4>
+    <h4 class="col-md-12 text-md-center">Find what you need, or sell your stuff fast!<br><br></h4>
+    <!-- Old Greeting
+    <p class="col-md-12">An online website designed by and for SFSU students to easily and quickly sell the belongings.
+        Sell anything, Books, Electronics or Furniture or buy anything. Happy shopping!!</p> -->
+</div>
+{% endif %}
+
+<!------- Category Browsing Buttons ------->
+<div class="row">
+    <div class="col-sm-12">
+        <h5 class="text-center">Browse by Categories:  </h5>
+        <div class="row justify-content-center">
+        {% set categories = CONTENT_DICT["categories"] %}
+        {% for category in categories() %}
+            {% if category == browse_category %}
+                <a class="btn btn-warning mr-1 active" href="{{ url_for('results', search='', cat=category) }}">{{ category }}</a>
+            {% else %}
+                <a class="btn btn-warning mr-1" href="{{ url_for('results', search='', cat=category) }}">{{ category }}</a>
+            {% endif %}
+
+        {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!--    # This div uses jinja logic to get the postings from __init__.py and formats them.-->
+<div class="row py-3">
+    <div class="col-sm-12">
+        <h2 class="text-center">Recent Listings</h2>
+
+        <div class="col-sm-12">
+
+            <div class="row py-4">
+                {% for listing in results %}
+                    {{ preview(listing, getThumb) }}
+                {% endfor %}
+            </div>
+
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <a href="{{ url_for('results', search='', cat='All') }}" class="btn btn-block btn-info">Browse
+                        More</a>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

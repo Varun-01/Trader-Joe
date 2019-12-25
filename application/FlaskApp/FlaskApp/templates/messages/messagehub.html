@@ -1,0 +1,65 @@
+{% extends "header.html" %}
+
+{% block body %}
+
+<html>
+    <title>messages with all sellers</title>
+
+    <style>
+        .box-shadow {
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .05);
+}
+
+        .msg-box .picture {
+            float: left;
+            width: 50px;
+            display: block;
+            padding-right: 15px;
+            margin-right: 10px;
+        }
+
+        .message {
+            color: #555;
+            font-weight: bold;
+        }
+
+        .msg-box:hover > .ellipsis-icon {
+    visibility: visible;
+}
+        .picture img {
+            width: 45px;
+            height: 45px;
+            border-radius: 5px;
+        }
+        .msg img {
+            width: 100%;
+            max-width: 1000px;
+            height: auto;
+        }
+    </style>
+<body>
+
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+        <h5 class=" ml-4 my-0 mr-md-auto font-weight-normal">Messages with All Sellers</h5>
+        <br>
+
+    </div>
+    {% for message in message %}
+    <div class="card text-center">
+  <div class="card-header">
+    Message with {{ message[3].name }}
+  </div>
+  <div class="card-body">
+    <h6 class="card-text"> Recent message:</h6>
+      <h5 class="card-title">{{ message[0][0].message }}</h5>
+    <a href="{{'/message/%s'%message[1].id}} " class="btn btn-primary">Chat Now!</a>
+  </div>
+  <div class="card-footer text-muted">
+     At: {{ message[0][0].msg_sent }}
+  </div>
+</div>
+    {% endfor %}
+</body>
+</html>
+
+{% endblock %}

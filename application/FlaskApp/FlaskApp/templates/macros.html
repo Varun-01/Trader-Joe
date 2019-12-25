@@ -1,0 +1,118 @@
+{% macro preview(listing, getThumb) %}
+<div class="col-sm-6 col-md-4 col-lg-3">
+    <div class="row">
+        <div class="col-sm-12 mb-3">
+            <div class="card border-dark" style="height: 425px">
+                <a class="text-center" href="{{ '/listing/%s'%listing.id }}" target="_blank">
+                    {% set thumb = getThumb(listing.id) %}
+                    {% if thumb %}
+                    <img class="img-fluid border-dark mb-1" src="data:image/png;base64,{{ thumb.as_b64() }}">
+                    {% else %}
+                    <img class="img-fluid border-dark mb-1" src="/static/resources/thumbnotfound.jpg">
+                    {% endif %}
+                </a>
+                <a class="card-body card-link text-center" href="{{ '/listing/%s'%listing.id }}" target="_blank"
+                   style="height: 115px">
+                    <h6 class="card-title text-info">{{ listing.title }}</h6>
+                </a>
+                <div class="card-footer bg-transparent border-warning">
+                    <h4 class="text-right">${{ listing.sell_price }}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro register() %}
+<div class="md-form mb-5 form-group">
+    <i class="fas fa-envelope prefix grey-text"></i>
+    <label data-error="wrong" data-success="right" for="form-email">Student email</label>
+    <input type="email" id="form-email" class="form-control validate"
+           placeholder="Enter Email"
+           name="email" pattern="[a-z0-9._%+-]+@mail.sfsu.edu" required>
+    <small class="form-text text-muted">SFSU email required (@mail.sfsu.edu). We won't share your email with anyone else.</small>
+</div>
+
+<div class="md-form mb-5 form-group">
+    <i class="fas fa-user prefix grey-text"></i>
+    <label data-error="wrong" data-success="right" for="form-name">Name</label>
+    <input type="text" id="form-name" class="form-control validate" placeholder="Enter Name"
+           name="username" required pattern="[A-z\s]+">
+</div>
+
+<div class="md-form mb-5 form-group">
+    <i class="fas fa-lock prefix grey-text"></i>
+    <label data-error="wrong" data-success="right" for="form-pass">Password</label>
+    <input type="password" id="form-pass" class="form-control validate" maxlength="24"
+           placeholder="Enter Password" name="psw" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+    <small class="form-text text-muted">Minimum 8 characters. Uppercase, lowercase and number required.</small>
+</div>
+
+<div class="md-form mb-5 form-group">
+    <i class="fas fa-lock prefix grey-text"></i>
+    <label data-error="wrong" data-success="right" for="form-pass2">Re-type Password</label>
+    <input type="password" id="form-pass2" class="form-control validate" maxlength="24"
+           placeholder="Repeat Password" name="psw-repeat" required
+           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
+</div>
+
+<div class="md-form mb-5 form-group">
+    <div class="form-check custom-control">
+        <input type="checkbox" class="form-check-input" id="form-checkbox" required>
+        <label class="form-check-label" for="form-checkbox">By creating an account you agree to our
+            <a href="/terms" target="_blank">Terms & Privacy</a>.
+        </label>
+        <div class="invalid-feedback">You must accept the Terms and Services.</div>
+    </div>
+
+    <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="registerbtn btn btn-info" name="btn" value="reg">
+            Register
+        </button>
+    </div>
+
+    <div class="container signin text-center">
+        <p>Already have an account?
+            <a href="" data-dismiss="modal" data-toggle="modal" data-target="#modalLoginForm">Sign
+                in</a>.
+        </p>
+    </div>
+</div>
+{% endmacro %}
+
+{% macro login() %}
+<div class="modal-body mx-3">
+    <div class="md-form mb-5">
+        <i class="fas fa-envelope prefix grey-text"></i>
+        <label data-error="wrong" data-success="right" for="defaultForm-email">Email</label>
+        <input type="email" id="defaultForm-email" class="form-control validate"
+               placeholder="Enter Email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+               required>
+    </div>
+
+    <div class="md-form mb-4">
+        <i class="fas fa-lock prefix grey-text"></i>
+        <label data-error="wrong" data-success="right" for="defaultForm-pass">Password</label>
+        <input type="password" id="defaultForm-pass" class="form-control validate" maxlength="24"
+               placeholder="Enter Password" name="Password" required>
+        <br>
+        <div class="form-check custom-control">
+            <input class="form-check-input" id="rmb-me" type="checkbox" name="remember">
+            <label class="form-check-label" for="rmb-me">Remember me</label>
+        </div>
+    </div>
+</div>
+<div class="modal-footer d-flex justify-content-center">
+    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+    <button class="btn btn-info" name="btn" value="login">Login</button>
+    <span class="psw"> <a href="/forgot"> Forgot password?</a></span>
+</div>
+
+
+<div class="container signin text-center">
+    <p>Not a member? <a href="" data-toggle="modal" data-target="#modalRegisterForm"
+                            data-dismiss="modal">Sign Up</a></p>
+</div>
+{% endmacro %}

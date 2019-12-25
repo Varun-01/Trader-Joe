@@ -1,0 +1,87 @@
+{% extends "header.html" %}
+{% from 'macros.html' import preview %}
+{% block body %}
+
+{% set getImage = CONTENT_DICT["getimage"] %}
+{% set getThumb = CONTENT_DICT["getthumb"] %}
+{% set is_book = CONTENT_DICT["isbook"] %}
+
+<form action="" method="post">
+<div class="row" style="margin-top:30px">
+    <div class="col-sm-5 text-center">
+        {% set image = getImage(listing.id) %}
+        {% if image %}
+        <img class="border-dark mb-1" width="100%" height="85%" src="data:image/png;base64,{{ image.as_b64() }}">
+        {% else %}
+        <img class="img-fluid border-dark mb-1" src="/static/resources/noimage.jpg">
+        {% endif %}
+    </div>
+
+    <div class="col-sm-7">
+        <div class="card border-dark mb-1">
+            <h2 class="card-header">{{ listing.title }}</h2>
+            <div class="card-body">
+                <h3>${{ listing.sell_price }}</h3>
+                <div>By {{ listing.seller.name }}</div>
+                <div>Category: {{ listing.category.name }}</div>
+                {% set book = is_book(listing.id) %}
+                {% if book %}
+                <div>Course: {{ book.dept }}-{{ book.course }}</div>
+                {% endif %}
+                <br>
+                <div class="text-right">
+                    {% if listing.sold == True %}
+                    <button class="btn btn-dark btn-lg" type="submit" name="btm" value="buy" disabled>Sold Out
+                        <span class="oi oi-cart"></span>
+                    </button>
+                    {% elif listing.sold == False %}
+                    <button class="btn btn-warning btn-lg" type="submit" name="btn" value="buy">Buy Now
+                        <span class="oi oi-cart"></span>
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            {% if authenticated() %}
+            <a href="/message/{{ listing.id }}" class="btn btn-outline-info btn-block" style="margin-bottom: 5px">
+                <span class="oi oi-chat"></span> Message {{ listing.seller.name }}
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</form>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card border-dark mb-1">
+            <h5 class="card-header">Description</h5>
+            <div class="card-body">
+
+                {{ listing.description }}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="nav flex-column" style="margin-top: 20px; min-height: 480px">
+    <h3 class="col-md-12">You may be interested in other {{ listing.category.name }}:</h3>
+
+    <div class="row">
+        {% for listing in similar %}
+            {{ preview(listing, getThumb) }}
+        {% endfor %}
+    </div>
+</div>
+
+<div class="row" style="margin-top: 10px">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <a href="{{ url_for('results', search='', cat=listing.category.name) }}" class="btn btn-block btn-outline-info">Browse more
+            {{ listing.category.name }}</a>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
+{% endblock %}

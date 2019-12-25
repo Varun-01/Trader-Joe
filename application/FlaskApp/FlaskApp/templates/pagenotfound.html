@@ -1,0 +1,14 @@
+{% extends "header.html" %}
+
+{% block body %}
+
+<div class="jumbotron-fluid text-center">
+    <h2>Sorry! Page not found</h2>
+    <div style="margin-top: 20px">
+        <img class="img-fluid border-dark mb-1 center" src="/static/resources/404_image.jpg">
+    </div>
+    <div style="margin-top: 10px">The page you are trying to access either doesn't exist or has been moved to another address.
+        Please <a href="{{ url_for('homepage') }}">click here</a> to go back to homepage</div>
+</div>
+
+{% endblock %}

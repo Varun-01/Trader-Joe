@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-153862423-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-153862423-1');
+</script>
+
+
+
+    <title>{{ title }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="{{  url_for('static', filename='css/bootstrap.min.css')  }}">
+    <link href="{{  url_for('static', filename='open-iconic/font/css/open-iconic-bootstrap.css')  }}">
+    <link href="{{  url_for('static', filename='open-iconic/font/css/open-iconic.scss')  }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css"
+          rel="stylesheet" integrity="sha256-BJ/G+e+y7bQdrYkS2RBTyNfBHpA9IuGaPmf9htub5MQ=" crossorigin="anonymous"/>
+
+
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+    <script src="{{  url_for('static', filename='js/bootstrap.min.js')  }}"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+
+    <!-- THESE STYLESHEETS / SCRIPTS REPLACE THE ABOVE -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+</head>
+
+{% set authenticated = CONTENT_DICT["authenticated"] %}
+{% set admin = CONTENT_DICT["admin"] %}
+{% from 'macros.html' import register, login %}
+
+<body>
+    
+<header>
+
+    <div class="text-center bg-warning text-dark" style="margin-bottom:0">
+        <span class="font-weight-bold">SFSU Software Engineering Project CSC 648-848, Fall 2019. For Demonstration Only</span>
+    </div>
+
+    <!-----------------------  NAVBAR    ------------------------------>
+
+    <div class="jumbotron-fluid">
+        <nav class="navbar navbar-expand-xl navbar-light bg-light mr-auto">
+            <a class="navbar-brand" href="/">
+            <img src="/static/resources/gjlogo.png" width="257" height="70" class="navbar-brand">
+                </a>
+            <button class="navbar-toggler float-xs-right ml-auto" type="button" data-toggle="collapse"
+                    data-target="#collapsibleNavbar"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <div class="collapse navbar-collapse navbar-expand-xl" id="collapsibleNavbar">
+                <ul class="navbar-nav mr-auto ml-4">
+
+                    <div>
+                        <form action="/results" class="row form-inline mr-auto" method="post" name="search">
+
+                            <select class="custom-select my-1 mr-1" id="inlineFormCustomSelectPref"
+                                    name="category">
+
+                                <!--                            Following jinja logic will check given form category and-->
+                                <!--                            make dropdown menu persistent-->
+                                <option
+                                        {% if not request.form[
+                                'category'] %}selected{% endif %}>All</option>
+
+                                {% set categories = CONTENT_DICT["categories"] %}
+                                {% for cat in categories() %}
+
+                                <option value="{{ cat }}"
+                                        {% if request.form[
+                                'category'] == cat %}selected{% endif %}>{{cat}}</option>
+
+                                {% endfor %}
+
+
+                            </select>
+                            <input class="form-control mr-1" type="text" placeholder="Enter Search Here"
+                                   name="search" value="{{request.form.search}}" maxlength="40">
+                            <button class="btn btn-warning my-0" type="submit" name="btn" value="search"><span
+                                    class="oi oi-magnifying-glass"></span></button>
+
+                        </form>
+                        <a class="text-dark row mr-2 float-right ml-auto" href="/buytextbooks"><h6>Find SFSU
+                            Textbooks</h6><span class="ml-2 oi oi-book"></span></a>
+                    </div>
+
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right row vdivide ml-auto mr-auto">
+                    
+                    <li class="nav-item">
+                        <a href="" class="btn mr-1" data-toggle="modal"
+                           data-target="#sellmodal">Sell</a>
+
+                    {% if authenticated() %}
+                        <a class="btn mr-1" href="/mylistings">My Listings</a>
+                        <a class="btn mr-1" href="/message">Messages</a>
+                    {% endif %}
+
+                        <a class="btn mr-1" href="/about">About</a>
+                    </li>
+
+                    {% if authenticated() %}
+                    <li class="nav-item ml-2 mr-2">
+                        {% if admin() %}
+                            <a class="btn btn-outline-danger mr-1" href="/admin">Admin</a>
+                        {% endif %}
+                        <a class="btn btn-outline-info mr-1" href="/logout">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item ml-2 mr-2">
+
+                        <a href="" class="btn btn-outline-info mr-1" data-toggle="modal"
+                           data-target="#modalLoginForm">Login</a>
+                        <a href="" class="btn btn-outline-info" data-toggle="modal"
+                           data-target="#modalRegisterForm">Sign Up</a>
+                    </li>
+                    {% endif %}
+
+                </ul>
+            </div>
+
+        </nav>
+    </div>
+
+</header>
+
+<div class="container-fluid" style="min-height: 100vh;">
+    <div class="container">
+        <div class="row" style="min-height: 100vh;">
+            <div class="col-sm-12 bg-light">
+                <!-- # This logic informs users of any errors on page-->
+                {% with fmessages = get_flashed_messages(category_filter=["error"]) %}
+                    {% if fmessages %}
+                        {% for flash in fmessages %}
+                           <div class="alert alert-danger alert-dismissible" role="alert">
+                           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                               <span aria-hidden="true">&times;</span>
+                           </button>
+                           {{ flash }}
+                           </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <!-- # This logic informs users when they have purchased a listing
+                 It will also inform admin when all listings are approved-->
+                {% with fmessages = get_flashed_messages(category_filter=["reg"]) %}
+                    {% if fmessages %}
+                        {% for flash in fmessages %}
+                           <div class="alert alert-info alert-dismissible" role="alert">
+                           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                               <span aria-hidden="true">&times;</span>
+                           </button>
+                           {{ flash }}
+                           </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                {% block body %}{% endblock %}
+                <br><br>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="jumbotron text-center" style="margin-bottom:0;">
+    <p>Gator Joe's</p>
+</div>
+
+</body>
+
+
+<!------------------------------- MODALS ------------------------------->
+
+<div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Sign up</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-info" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <form action="" method="post">
+                    {{ register() }}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Login</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-info" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="" method="post">
+                {{ login() }}
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="sellmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Choose Category</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="text-info" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% set categories = CONTENT_DICT["categories"] %}
+                {% for cat in categories() %}
+                <div class="col-md-12 text-center">
+                    <a href="{{ '/sell/%s'%cat }}" class="btn btn-warning btn-block">{{ cat }}</a>
+                </div>
+                <br>
+                {% endfor %}
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-outline-info mr-1" data-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

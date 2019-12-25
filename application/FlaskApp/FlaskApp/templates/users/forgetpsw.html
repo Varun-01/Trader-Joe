@@ -1,0 +1,52 @@
+{% extends "header.html" %}
+{% block body %}
+
+<div class="card text-center">
+    <div class="card-header">
+
+        <div class="card-body">
+            <h5 class="card-text"> Forgot Password</h5>
+        </div>
+    </div>
+    <div class="modal-body mx-3">
+        <h5>We'll send you a link to reset your password</h5>
+        <form action="" class="justify-content-sm-center form-inline row my-4" method="post">
+            <div class="md-form mb-5 form-group">
+                <i class="fas fa-envelope prefix grey-text"></i>
+                <label data-error="wrong" data-success="right" for="orangeForm-email"></label>
+                <input type="email" id="orangeForm-email" class="form-control validate"
+                       placeholder="Student Email"
+                       name="email" required>
+                <button type="submit" class="btn btn-info" name="btn" value="reset">
+                    Send Reset Link
+                </button>
+
+            </div>
+
+
+            <!-- OLD FORMAT FOR RESET PASSWORD
+
+            <div class="md-form mb-5 form-group">
+                <i class="fas fa-lock prefix grey-text"></i>
+                <label data-error="wrong" data-success="right" for="orangeForm-pass">New Password</label>
+                <input type="password" id="orangeForm-pass" class="form-control validate"
+                       placeholder="Enter Password" name="psw" required>
+            </div>
+
+            <div class="md-form mb-5 form-group">
+                <i class="fas fa-lock prefix grey-text"></i>
+                <label data-error="wrong" data-success="right" for="orangeForm-pass">Re-type Password</label>
+                <input type="password" id="orangeForm-pass" class="form-control validate"
+                       placeholder="Repeat Password" name="psw-repeat" required>
+            </div> -->
+
+        </form>
+        <div>
+            <h6 class="alert alert-warning">This Page is for Demonstration Purposes. There will be no Password Reset Email sent.</h6>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+

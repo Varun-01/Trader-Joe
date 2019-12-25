@@ -1,0 +1,39 @@
+{% extends "header.html" %}
+{% block body %}
+
+<div class="row" style="margin-top:30px">
+    <div class="col-12">
+        <div class="card bg-light text-center">
+            <div class="card-header">
+                <div class="card-body">
+                    <h3 class="card-text">About Us</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="margin-top: 20px">
+    <div class="col-sm-12">
+        <ul class="nav flex-column">
+            <div class="row">
+                {% for t in CONTENT_DICT["About"] %}
+
+                <div class="col-md-6 col-sm-12">
+                    <div class="card border-info mb-3">
+                        <h3 class="card-header">{{t[0]}}</h3>
+                        <div class="card-body text-info">
+                            <h5 class="card-title">{{t[1]}}</h5>
+                            <a href="{{t[2]}}" class="btn btn-info btn-block">{{t[0]}}'s Bio</a>
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+            </div>
+        </ul>
+
+    </div>
+</div>
+
+{% endblock %}

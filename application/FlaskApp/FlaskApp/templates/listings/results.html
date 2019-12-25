@@ -1,0 +1,44 @@
+{% extends "header.html" %}
+{% from 'macros.html' import preview %}
+{% set getThumb = CONTENT_DICT["getthumb"] %}
+{% block body %}
+
+<!--Renders this block if there are any results found. -->
+{% if num_results > 0 %}
+<div class="row">
+    <div class="col-sm-9">
+        <h2>Showing {{ num_results }} Results: {{ searchquery }}</h2>
+    </div>
+    <div class="col-sm-3 text-right">
+        <div class="dropdown">
+            <button class="btn btn-warning dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Sort By
+                Price
+                <span class="caret"></span></button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                <li><a class="ml-2 text-dark" href="{{ url_for('results', search='', cat=searchcat, sort='asc') }}">Ascending</a>
+                </li>
+                <li><a class="ml-2 text-dark" href="{{ url_for('results', search='', cat=searchcat, sort='des') }}">Descending</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<div class="row py-4">
+    {% for listing in results %}
+    {{ preview(listing, getThumb) }}
+    {% endfor %}
+</div>
+<!-- Renders this block if there are no results for the search -->
+{% elif num_results == 0 %}
+<div class="row">
+    <div class="col-sm-12">
+        <h2 align="center">Sorry! No Results found for: "{{ searchquery }}"</h2>
+        <h3 align="center">Please try another search</h3>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+
